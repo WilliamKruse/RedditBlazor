@@ -1,0 +1,24 @@
+﻿@page "/reddit"
+
+@using RedditAPI.Model;
+@using RedditClientSide.Service;
+@inject RedditService service
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<h3>Home</h3>
+<ul>
+        @foreach(var post in FullPostList)
+        {
+            <li>@post.Title <br />@post.Body</li>
+        }
+    </ul>
+@code {
+     public List<Post> FullPostList = new List<Post>();
+
+   protected override async Task OnInitializedAsync()
+    {
+        FullPostList = (await service.GetAllPosts()).ToList();
+    }
+}
