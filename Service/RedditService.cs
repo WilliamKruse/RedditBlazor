@@ -20,16 +20,27 @@ namespace RedditClientSide.Service
             this.baseAPI = configuration["base_api"];
         }
 
+        public async Task<User[]> GetAllUsers()
+        {
+            string url = $"{baseAPI}getallusers";
+            return await http.GetFromJsonAsync<User[]>(url);
+        }
+        public async Task<User> GetUser(long id)
+        {
+            string url = $"{baseAPI}getuser/{id}";
+            return await http.GetFromJsonAsync<User>(url);
+        }
+
 
         public async Task<Post[]> GetAllPosts()
         {
             string url = $"{baseAPI}getallpost";
             return await http.GetFromJsonAsync<Post[]>(url);
         }
-        public async Task<Post[]> GetPost(long id)
+        public async Task<Post> GetPost(long id)
         {
             string url = $"{baseAPI}getpost/{id}";
-            return await http.GetFromJsonAsync<Post[]>(url);
+            return await http.GetFromJsonAsync<Post>(url);
         }
         public async Task<Comment[]> GetAllComments(long id)
         {
@@ -65,7 +76,7 @@ namespace RedditClientSide.Service
             Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
     }
-    public record VoteDTO(long voteID, long userID, bool like);
+    public record VoteDTO(long voteID, string userName, bool like);
     public record PostDTO(string userName, string title, string body);
     public record CommentDTO(string userName, string body, long postID);
 }

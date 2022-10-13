@@ -1,0 +1,68 @@
+﻿@page "/commentpage/{id}"
+
+@using RedditAPI.Model;
+@using RedditClientSide.Service;
+@inject RedditService service
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@mainPost.Title</h4>
+        <h6 class="card-subtitle mb-2 text-muted">@mainPost.UserID</h6>
+        <p class="card-text">
+            @mainPost.Body
+        </p>
+        <button type="button" class="btn btn-success">Like</button>
+        <button type="button" class="btn btn-danger">Dislike</button>
+    </div>
+</div>
+
+@foreach (var comment in commentList)
+{
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Likes: @comment.Votes</h6>
+            <p class="card-text">
+                @comment.Body
+            </p>
+            <button @onclick="()=>CommentVote(comment.CommentId,, true )"type="button" class="btn btn-success">Like</button>
+            <button type="button" class="btn btn-danger">Dislike</button>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+    public int PostId { get { return int.Parse(Id); } }
+
+    public List<Comment> commentList = new List<Comment>();
+    public Post mainPost = new Post();
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        mainPost = await service.GetPost(PostId);
+        commentList = (await service.GetAllComments(PostId)).ToList();
+
+    }
+    public void CommentVote(long id, string userName, bool like)
+{
+        service.CommentVote(new VoteDTO(id, userName, like));
+        StateHasChanged();
+}
+        public void PostVote(long id, string userName, bool like)
+        {
+        service.PostVote(new VoteDTO(id, userName, like));
+        StateHasChanged();
+        }
+    public async Task<User> GetUser(long id)
+{
+        return await service.GetUser(id);
+}
+
+}
+

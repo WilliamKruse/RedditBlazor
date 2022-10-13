@@ -8,17 +8,26 @@
 @inject IConfiguration Configuration
 
 <h3>Home</h3>
-<ul>
-        @foreach(var post in FullPostList)
+<div class="list-group">
+    @foreach (var post in FullPostList)
         {
-            <li>@post.Title <br />@post.Body</li>
+            <a href="/commentpage/@post.PostId" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@post.Title</h5>
+                <small>@post.PostId</small>
+            </div>
+            <p class="mb-1 text-truncate" style="max-width:100px;">@post.Body</p>
+            <small class="text-muted">@post.UserID</small>
+        </a>
         }
-    </ul>
-@code {
-     public List<Post> FullPostList = new List<Post>();
+    </div>
 
-   protected override async Task OnInitializedAsync()
-    {
-        FullPostList = (await service.GetAllPosts()).ToList();
+    @code {
+        public List<Post> FullPostList = new List<Post>();
+
+        protected override async Task OnInitializedAsync()
+        {
+
+            FullPostList = (await service.GetAllPosts()).ToList();
+        }
     }
-}
