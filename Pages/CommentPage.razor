@@ -27,7 +27,7 @@
             <p class="card-text">
                 @comment.Body
             </p>
-            <button @onclick="()=>CommentVote(comment.CommentId,, true )"type="button" class="btn btn-success">Like</button>
+            <button @onclick="()=>CommentVote(comment.CommentId,GetUserName(comment.UserID), true )"type="button" class="btn btn-success">Like</button>
             <button type="button" class="btn btn-danger">Dislike</button>
         </div>
     </div>
@@ -63,6 +63,12 @@
 {
         return await service.GetUser(id);
 }
+        public string GetUserName(long id)
+        {
+            
+            string name = (service.GetUser(id)).Result.Name;
+            return name;
+        }
 
 }
 
