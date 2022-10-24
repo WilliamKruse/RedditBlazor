@@ -63,17 +63,23 @@ namespace RedditClientSide.Service
             Comment? newComment = JsonSerializer.Deserialize<Comment>(jsonser, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return newComment;
         }
-        public async void PostVote(VoteDTO data)
+        public async Task<bool> PostVote(VoteDTO data)
         {
             string url = $"{baseAPI}post/vote";
             HttpResponseMessage response = await http.PostAsJsonAsync(url, data);
             Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            string jsonser = response.Content.ReadAsStringAsync().Result;
+            bool newComment = JsonSerializer.Deserialize<bool>(jsonser, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return newComment;
         }
-        public async void CommentVote(VoteDTO data)
+        public async Task<bool> CommentVote(VoteDTO data)
         {
             string url = $"{baseAPI}comment/vote";
             HttpResponseMessage response = await http.PostAsJsonAsync(url, data);
             Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            string jsonser = response.Content.ReadAsStringAsync().Result;
+            bool newComment = JsonSerializer.Deserialize<bool>(jsonser, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return newComment;
         }
     }
     public record VoteDTO(long voteID, string userName, bool like);
