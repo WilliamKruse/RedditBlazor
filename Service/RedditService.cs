@@ -66,13 +66,13 @@ namespace RedditClientSide.Service
         public async void PostVote(VoteDTO data)
         {
             string url = $"{baseAPI}post/vote";
-            HttpResponseMessage response = await http.PutAsJsonAsync(url, data);
+            HttpResponseMessage response = await http.PostAsJsonAsync(url, data);
             Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
         public async void CommentVote(VoteDTO data)
         {
             string url = $"{baseAPI}comment/vote";
-            HttpResponseMessage response = await http.PutAsJsonAsync(url, data);
+            HttpResponseMessage response = await http.PostAsJsonAsync(url, data);
             Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
     }

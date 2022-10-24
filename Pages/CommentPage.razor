@@ -18,6 +18,7 @@
         <button type="button" class="btn btn-danger">Dislike</button>
     </div>
 </div>
+<input type="text" @bind="LoginUser"/>
 
 @foreach (var comment in commentList)
 {
@@ -27,17 +28,20 @@
             <p class="card-text">
                 @comment.Body
             </p>
-            <button @onclick="()=>CommentVote(comment.CommentId,GetUserName(comment.UserID), true )"type="button" class="btn btn-success">Like</button>
+            <button @onclick="()=>CommentVote(comment.CommentId,LoginUser, true )"type="button" class="btn btn-success">Like</button>
             <button type="button" class="btn btn-danger">Dislike</button>
         </div>
     </div>
 }
+
 
 @code {
 
     [Parameter]
     public string Id { get; set; }
     public int PostId { get { return int.Parse(Id); } }
+
+    public string LoginUser = "Indtast UserName";
 
     public List<Comment> commentList = new List<Comment>();
     public Post mainPost = new Post();
