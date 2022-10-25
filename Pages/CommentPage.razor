@@ -40,9 +40,10 @@
 <div class="input-group mb-3">
   <div class="input-group-prepend">
    
-  </div>
-  <input @bind="NewCommentBody" type="text" class="form-control" placeholder="Ny kommentar" aria-label="Username" aria-describedby="basic-addon1">
+ 
+  <input @bind="NewCommentBody" type="text" class="form-control mb-2" placeholder="Ny kommentar" aria-label="Username" aria-describedby="basic-addon1">
   <button @onclick="()=>CreateComment(LoginUser,NewCommentBody,mainPost.PostId)"type="button" class="btn btn-danger mb-2">Post</button>
+</div>
 </div>
 @foreach (var comment in commentList)
 {
