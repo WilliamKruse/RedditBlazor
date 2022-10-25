@@ -10,9 +10,11 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">@mainPost.Title</h4>
-            <h6 class="card-subtitle mb-2 text-muted">/@FullUserList.Where(u => u.UserId == mainPost.UserID).First().Name
-        </h6>
-        <p class="card-text">
+            <h6 class="card-subtitle mb-2 text-muted">
+                /@FullUserList.Where(u => u.UserId == mainPost.UserID).First().Name
+            </h6>
+            <small>@mainPost.PostTime.ToString("dd-MM/yyyy")</small>
+            <p class="card-text">
                 @mainPost.Body
             </p>
             <button @onclick="()=>PostVote(mainPost.PostId,LoginUser,true)" type="button" class="btn btn-success mb-2">Like</button>
@@ -47,11 +49,12 @@
     <div class="card">
         <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">/@FullUserList.Where(u => u.UserId == comment.UserID).First().Name</h6>
+            <small>@comment.CommentTime.ToString("dd-MM/yyyy")</small>
             <p class="card-text">
                 @comment.Body
             </p>
-            <button @onclick="()=>CommentVote(comment.CommentId,LoginUser, true )"type="button" class="btn btn-success mb-2">Like</button>
-            <button @onclick="()=>CommentVote(comment.CommentId,LoginUser, false )"type="button" class="btn btn-danger mb-2">Dislike</button>
+            <button @onclick="()=>CommentVote(comment.CommentId,LoginUser, true )" type="button" class="btn btn-success mb-2">Like</button>
+            <button @onclick="()=>CommentVote(comment.CommentId,LoginUser, false )" type="button" class="btn btn-danger mb-2">Dislike</button>
             <h6 class="card-subtitle mb-2 text-muted">Likes: @comment.Votes</h6>
         </div>
     </div>

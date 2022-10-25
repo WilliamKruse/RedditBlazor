@@ -1,4 +1,4 @@
-﻿@page "/reddit"
+﻿@page "/"
 
 @using RedditAPI.Model;
 @using RedditClientSide.Service;
@@ -7,15 +7,15 @@
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
-<h3>Home</h3>
+<h6>BAD-REDDIT >:)</h6>
 <div class="list-group">
-    @foreach (var post in FullPostList)
+    @foreach (var post in FullPostList.Take(NumOfPosts))
     {
         
         <a href="/commentpage/@post.PostId" class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">@post.Title</h5>
-                <small>@post.PostTime.ToString("dd mm yyyy")</small>
+                <small>@post.PostTime.ToString("dd-MM/yyyy")</small>
             </div>
             <p class="mb-1 text-truncate" style="max-width:100px;">@post.Body</p>
             <small class="text-muted">@FullUserList.Where(u => u.UserId == post.UserID).First().Name</small>
@@ -26,6 +26,7 @@
     @code {
         public List<Post> FullPostList = new List<Post>();
         public List<User> FullUserList = new List<User>();
+        public int NumOfPosts = 50;
 
         protected override async Task OnInitializedAsync()
         {
