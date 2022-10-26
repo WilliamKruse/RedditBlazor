@@ -9,7 +9,7 @@
 
 <h4>BAD-REDDIT >:)</h4>
 
-<p></p>
+
 <div class="input-group mb-3">
     <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Titel</span>
@@ -21,7 +21,7 @@
 
 <div class="input-group mb-3">
   
-    <input @bind="body" type="text" class="form-control" placeholder="Hvad har du på hjertet?" aria-label="Username" aria-describedby="basic-addon1">
+    <input @bind="PostBody" type="text" class="form-control" placeholder="Hvad har du på hjertet?" aria-label="Username" aria-describedby="basic-addon1">
       
    
 </div>
@@ -32,7 +32,7 @@
         <span class="input-group-text" id="basic-addon1">@@Brugernavn</span>
     </div>
     <input @bind="LoginUserName" type="text" class="form-control" placeholder="JohnDoe69" aria-label="Username" aria-describedby="basic-addon1">
-    <button @onclick="()=>CreatePost(LoginUserName,PostTitle,body)" type="button" class="btn btn-danger mb-2">Post</button>
+    <button @onclick="()=>CreatePost(LoginUserName,PostTitle,PostBody)" type="button" class="btn btn-danger mb-2">Post</button>
 
 </div>
 
@@ -51,6 +51,7 @@
         </a>
     }
 </div>
+<button @onclick="()=>ShowMore()" type="button" class="btn btn-alert mt-3">Vis mere</button>
 
 @code {
     public List<Post> FullPostList = new List<Post>();
@@ -59,29 +60,36 @@
 
     public string LoginUserName = "";
     public string PostTitle = "";
-    public string body = "";
+    public string PostBody = "";
 
     protected override async Task OnInitializedAsync()
     {
 
         FullPostList = (await service.GetAllPosts()).ToList();
         FullUserList = (await service.GetAllUsers()).ToList();
+        FullPostList.Reverse();
 
     }
     public async Task<User> GetUser(long id)
     {
         return await service.GetUser(id);
     }
-    public async void CreatePost(string userName, string title, string body )
+    public async void CreatePost(string userName, string title, string postBody )
     {
 
-        Post temp = await service.CreatePost(new PostDTO(userName,title,body));
+        Post temp = await service.CreatePost(new PostDTO(userName,title,postBody));
         FullPostList = (await service.GetAllPosts()).ToList();
         FullUserList = (await service.GetAllUsers()).ToList();
         LoginUserName = "";
         PostTitle = "";
-        body = "";
+        PostBody = "";
+        FullPostList.Reverse();
         StateHasChanged();
+    }
+
+    public void ShowMore()
+    {
+        NumOfPosts = NumOfPosts + 10;
     }
 
 }
